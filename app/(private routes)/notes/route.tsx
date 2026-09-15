@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { api, apiError } from "../../api/api";
+import { api, ApiError } from "../../api/api";
 
 
 export async function GET(request: NextRequest) {
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
         })
         return NextResponse.json(result.data)
     } catch (error) {
-        const err = error as  apiError
+        const err = error as  ApiError
         return NextResponse.json(
             {
                 err: err.response?.data.error ?? err.message,
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
         const result = await api.post("/notes", req)
         return NextResponse.json(result.data)
     } catch (error) {
-        const err = error as  apiError
+        const err = error as  ApiError
         return NextResponse.json(
             {
                 err: err.response?.data.error ?? err.message,
