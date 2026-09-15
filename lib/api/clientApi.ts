@@ -1,4 +1,4 @@
-import type { CheckSessionRequest, LoginRequest, Note, NoteId, RegisterRequest, User, UserData } from "../types/note"
+import type { CheckSessionRequest, LoginRequest, Note, NoteId, RegisterRequest, User, UserData } from "../../types/note"
 import { nextApi } from "./api";
 
 

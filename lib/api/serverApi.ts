@@ -1,4 +1,4 @@
-import type { Note, NoteId, User } from "../types/note"
+import type { Note, NoteId, User } from "../../types/note"
 import { nextApi } from "./api";
 import { cookies } from 'next/headers';
 

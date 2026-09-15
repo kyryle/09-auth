@@ -1,7 +1,7 @@
 "use client";
 
 import { ApiError } from "@/app/api/api";
-import { register } from "@/lib/clientApi";
+import { register } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 import { RegisterRequest } from "@/types/note";
 import { useRouter } from "next/navigation";

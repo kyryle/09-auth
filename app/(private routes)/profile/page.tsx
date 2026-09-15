@@ -1,6 +1,6 @@
 
 
-import { getServerMe } from '@/lib/serverApi';
+import { getServerMe } from '@/lib/api/serverApi';
 import Link from 'next/link';
 
 const Profile = async () => {
