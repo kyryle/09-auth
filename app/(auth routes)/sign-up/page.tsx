@@ -3,7 +3,7 @@
 import { ApiError } from "@/app/api/api";
 import { register } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
-import { RegisterRequest } from "@/types/note";
+import { RegisterRequest } from "@/types/user";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 

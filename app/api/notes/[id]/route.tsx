@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { api, ApiError } from "../../../api/api";
+import { api, ApiError } from "../../api";
 
 interface Params {
     params: Promise<{id: string}>

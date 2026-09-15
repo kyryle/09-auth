@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { api, ApiError } from "../../api/api";
+import { api, ApiError } from "../api";
 
 
 export async function GET(request: NextRequest) {
