@@ -27,7 +27,7 @@ export const login = async (data: LoginRequest) => {
 };
 
 export const logout = async (): Promise<void> => {
-    await nextApi.post('/auth/logout')
+    await nextApi.post<void>('/auth/logout')
 };
 
 export const checkSession = async (): Promise<CheckSessionResponse> => {
@@ -35,17 +35,17 @@ export const checkSession = async (): Promise<CheckSessionResponse> => {
   return res.data;
 };
 
-export const getMe = async () => {
+export const getMe = async (): Promise<User> => {
   const { data } = await nextApi.get<User>('/users/me');
   return data;
 };
 
-export const updateMe = async (data: UserData) => {
+export const updateMe = async (data: UserData): Promise<User> => {
     const res = await nextApi.patch<User>('/users/me', data);
   return res.data;
 };
 
-export const fetchNotes = async (search: string, page: number, tag: string) => {
+export const fetchNotes = async (search: string, page: number, tag: string): Promise<NoteHubResponse> => {
     try {
         const result = await nextApi.get<NoteHubResponse>('/notes', {
             params: {
@@ -59,6 +59,8 @@ export const fetchNotes = async (search: string, page: number, tag: string) => {
 
     } catch (err) {
         console.log(err);
+        throw err
+
     }
 
 }

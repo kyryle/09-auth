@@ -18,7 +18,7 @@ export async function proxy(request: NextRequest) {
   const isPrivateRoute = privateRoutes.some((route) => pathname.startsWith(route));
 
   if (!accessToken) {
-      if (refreshToken) { 
+      if (refreshToken) {
         
       const data = await checkServerSession();
       const setCookie = data.headers['set-cookie'];
@@ -31,7 +31,7 @@ export async function proxy(request: NextRequest) {
           if (parsed.value) {
             const { name, value, ...options } = parsed
 			      cookieStore.set(name, value, options);
-		  }          
+		  }
         }
         
         if (isPublicRoute) {
@@ -44,10 +44,10 @@ export async function proxy(request: NextRequest) {
           
         if (isPrivateRoute) {
           return NextResponse.next({
-            headers: {
-              Cookie: cookieStore.toString(),
-            },
-          });
+      headers: {
+        Cookie: cookieStore.toString(),
+      }
+    });
         }
       } else {
         return NextResponse.redirect(new URL('/sign-in', request.url), {
@@ -59,11 +59,11 @@ export async function proxy(request: NextRequest) {
       }
       
     if (isPublicRoute) {
-      return NextResponse.next(), {
-            headers: {
-              Cookie: cookieStore.toString(),
-            },
-          };
+      return NextResponse.next({
+      headers: {
+        Cookie: cookieStore.toString(),
+      }
+    })
     }
 
     if (isPrivateRoute) {
@@ -72,36 +72,16 @@ export async function proxy(request: NextRequest) {
               Cookie: cookieStore.toString(),
             },
           });
-    } else {
-        return NextResponse.redirect(new URL('/sign-in', request.url), {
-            headers: {
-              Cookie: cookieStore.toString(),
-            },
-          });
-      }
+    }
   }
 
   if (isPublicRoute) {
-    return NextResponse.redirect(new URL('/', request.url), {
-            headers: {
-              Cookie: cookieStore.toString(),
-            },
-          });
+    return NextResponse.redirect(new URL('/', request.url));
     }
     
   if (isPrivateRoute) {
-    return NextResponse.next(), {
-            headers: {
-              Cookie: cookieStore.toString(),
-            },
-          };
-  } else {
-        return NextResponse.redirect(new URL('/sign-in', request.url), {
-            headers: {
-              Cookie: cookieStore.toString(),
-            },
-          });
-      }
+    return NextResponse.next()
+          }
 }
 
 export const config = {
