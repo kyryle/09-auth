@@ -1,7 +1,6 @@
 export type RegisterRequest = {
   email: string;
   password: string;
-  // username: string;
 };
 
 export type User = {
@@ -14,3 +13,7 @@ export type LoginRequest = {
   email: string;
   password: string;
 };
+
+export interface UserData {
+  username: string,
+}

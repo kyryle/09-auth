@@ -14,3 +14,9 @@ export type NewNote = {
       content: string,
       tag: string
 }
+
+export interface NoteData {
+    title: string;
+    content: string;
+    tag: string
+}

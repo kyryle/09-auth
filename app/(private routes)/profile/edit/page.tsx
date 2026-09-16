@@ -52,7 +52,7 @@ return (
         <button type="submit" className={css.saveButton}>
           Save
         </button>
-        <button type="button" className={css.cancelButton} onClick={() => route.push('/profile')}>
+        <button type="button" className={css.cancelButton} onClick={() => route.back()}>
           Cancel
         </button>
       </div>

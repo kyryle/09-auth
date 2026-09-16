@@ -1,28 +1,16 @@
-import { LoginRequest, RegisterRequest, User } from "@/types/user";
-import type { Note, NoteId } from "../../types/note"
+import { LoginRequest, RegisterRequest, User, UserData } from "@/types/user";
+import type { Note, NoteData, NoteId } from "../../types/note"
 import { nextApi } from "./api";
 
-
-const myKey = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 
 export interface NoteHubResponse {
     notes: Note[],
     totalPages: number,
 }
 
-interface CheckSessionRequest {
+interface CheckSessionResponse {
   success: boolean;
 };
-
-interface NoteData {
-    title: string;
-    content: string;
-    tag: string
-}
-
-interface UserData {
-  username: string,
-}
 
 export const register = async (data: RegisterRequest) => {
   const res = await nextApi.post<User>('/auth/register', data);
@@ -35,15 +23,11 @@ export const login = async (data: LoginRequest) => {
 };
 
 export const logout = async (): Promise<void> => {
-    await nextApi.post('/auth/logout', null, {
-        headers: {
-            Authorization: `Bearer ${myKey}`
-        }
-    })
+    await nextApi.post('/auth/logout')
 };
 
-export const checkSession = async () => {
-  const res = await nextApi.get<CheckSessionRequest>('/auth/session');
+export const checkSession = async (): Promise<CheckSessionResponse> => {
+  const res = await nextApi.get<CheckSessionResponse>('/auth/session');
   return res.data;
 };
 
@@ -64,38 +48,20 @@ export const fetchNotes = async (search: string, page: number, tag: string) => {
                 search: search,
                 page: page,
                 ...(tag && {tag}),
-            },
-            headers: {
-                Authorization: `Bearer ${myKey}`
             }
-
         })
         
         return result.data
 
     } catch (err) {
         console.log(err);
-        try {
-            return (
-                {
-                    notes: [],
-                    totalPages: 0
-                }
-            )
-        } catch (err) {
-            console.log(err);
-        }
     }
 
 }
 
 export const createNote = async (data: NoteData) => {
     try {
-    const result = await nextApi.post<Note>(`/notes`, data, {
-        headers: {
-            Authorization: `Bearer ${myKey}`
-        }
-    })
+    const result = await nextApi.post<Note>(`/notes`, data)
     return result.data
 
 } catch (err) {
@@ -107,11 +73,7 @@ export const createNote = async (data: NoteData) => {
 
 export const deleteNote = async (id: NoteId) => {
     try {
-    const result = await nextApi.delete<Note>(`/notes/${id}`, {
-        headers: {
-            Authorization: `Bearer ${myKey}`
-        }
-    })
+    const result = await nextApi.delete<Note>(`/notes/${id}`)
     return result.data
 
 } catch (err) {
@@ -123,11 +85,7 @@ export const deleteNote = async (id: NoteId) => {
 
 export const fetchNoteById = async (id: NoteId) => {
     try {
-    const result = await nextApi.get<Note>(`/notes/${id}`, {
-        headers: {
-            Authorization: `Bearer ${myKey}`
-        }
-    })
+    const result = await nextApi.get<Note>(`/notes/${id}`)
     
     return result.data
     
