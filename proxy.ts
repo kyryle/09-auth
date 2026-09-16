@@ -22,54 +22,43 @@ export async function proxy(request: NextRequest) {
   if (!accessToken) {
     if (refreshToken) {
       try {
-      const data = await checkServerSession();
-      const setCookie = data.headers["set-cookie"];
+        const data = await checkServerSession();
+        const setCookie = data.headers["set-cookie"];
 
-      let response: NextResponse;
-      if (isPublicRoute) {
-        response = NextResponse.redirect(new URL("/", request.url));
-      } else if (isPrivateRoute) {
-        response = NextResponse.next();
-      } else {
-        response = NextResponse.next();
-      }
+        let response: NextResponse;
+        if (isPublicRoute) {
+          response = NextResponse.redirect(new URL("/", request.url));
+        } else {
+          response = NextResponse.next();
+        }
 
-      if (setCookie) {
-        const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
-        for (const cookieStr of cookieArray) {
-          const parsed = parseSetCookie(cookieStr);
+        if (setCookie) {
+          const cookieArray = Array.isArray(setCookie)
+            ? setCookie
+            : [setCookie];
+          for (const cookieStr of cookieArray) {
+            const parsed = parseSetCookie(cookieStr);
 
-          if (
-            parsed.value ||
-            parsed.expires ||
-            parsed.secure ||
-            parsed.sameSite
-          ) {
-            const { name, value, ...options } = parsed;
-            cookieStore.set(name, value ?? "", options);
-            response.cookies.set(name, value ?? "", options);
-            request.cookies.set(name, value ?? "");
+            if (
+              parsed.value ||
+              parsed.expires ||
+              parsed.secure ||
+              parsed.sameSite
+            ) {
+              const { name, value, ...options } = parsed;
+              response.cookies.set(name, value ?? "", options);
+            }
           }
         }
-
-        if (isPublicRoute) {
-          return NextResponse.redirect(new URL("/", request.url));
-        }
-
-        if (isPrivateRoute) {
-          return NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
-        }
-      }
-      return response
+        return response;
       } catch (error) {
         console.log(error);
-        return NextResponse.redirect(new URL("/", request.url));
+        if (isPrivateRoute) {
+          return NextResponse.redirect(new URL("/sign-in", request.url));
+        }
+        return NextResponse.next();
+      }
     }
-  } 
 
     if (isPublicRoute) {
       return NextResponse.next();
