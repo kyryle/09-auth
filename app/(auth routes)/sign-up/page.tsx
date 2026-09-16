@@ -38,10 +38,10 @@ const SignUp = () => {
     <>
       <h1>Sign up</h1>
       <form action={handleSubmit}>
-        <label>
+        {/* <label>
           Username
           <input type="text" name="username" required />
-        </label>
+        </label> */}
         <label>
           Email
           <input type="email" name="email" required />

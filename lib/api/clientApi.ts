@@ -10,7 +10,7 @@ export interface NoteHubResponse {
     totalPages: number,
 }
 
-export type CheckSessionRequest = {
+interface CheckSessionRequest {
   success: boolean;
 };
 
@@ -20,30 +20,22 @@ interface NoteData {
     tag: string
 }
 
-export interface UserData {
+interface UserData {
   username: string,
 }
 
 export const register = async (data: RegisterRequest) => {
-  const res = await nextApi.post<User>('/auth/register', data, {
-        headers: {
-            Authorization: `Bearer ${myKey}`
-        }
-    });
+  const res = await nextApi.post<User>('/auth/register', data);
   return res.data;
 };
 
 export const login = async (data: LoginRequest) => {
-  const res = await nextApi.post<User>('/auth/login', data, {
-        headers: {
-            Authorization: `Bearer ${myKey}`
-        }
-    });
+  const res = await nextApi.post<User>('/auth/login', data);
   return res.data;
 };
 
 export const logout = async (): Promise<void> => {
-  await nextApi.post('/auth/logout', {
+    await nextApi.post('/auth/logout', null, {
         headers: {
             Authorization: `Bearer ${myKey}`
         }
@@ -51,29 +43,17 @@ export const logout = async (): Promise<void> => {
 };
 
 export const checkSession = async () => {
-  const res = await nextApi.get<CheckSessionRequest>('/auth/session', {
-        headers: {
-            Authorization: `Bearer ${myKey}`
-        }
-    });
+  const res = await nextApi.get<CheckSessionRequest>('/auth/session');
   return res.data;
 };
 
 export const getMe = async () => {
-  const { data } = await nextApi.get<User>('/users/me', {
-        headers: {
-            Authorization: `Bearer ${myKey}`
-        }
-    });
+  const { data } = await nextApi.get<User>('/users/me');
   return data;
 };
 
 export const updateMe = async (data: UserData) => {
-    const res = await nextApi.patch<User>('/users/me', data, {
-        headers: {
-            Authorization: `Bearer ${myKey}`
-        }
-    });
+    const res = await nextApi.patch<User>('/users/me', data);
   return res.data;
 };
 
@@ -95,13 +75,16 @@ export const fetchNotes = async (search: string, page: number, tag: string) => {
 
     } catch (err) {
         console.log(err);
-        return (
-            {
-                notes: [],
-                totalPages: 0
-            }
-        )
-
+        try {
+            return (
+                {
+                    notes: [],
+                    totalPages: 0
+                }
+            )
+        } catch (err) {
+            console.log(err);
+        }
     }
 
 }

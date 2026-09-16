@@ -19,8 +19,8 @@ const EditPage = () => {
       avatar: user?.avatar || "",
     }
         setUser(newUser)
-        updateMe(newUser)
-        route.push('/profile')
+        await updateMe(newUser)
+        route.back()
     }
 return (
 <main className={css.mainContent}>
@@ -41,7 +41,8 @@ return (
           <input id="username"
             name="username"
           type="text"
-          className={css.input}
+            className={css.input}
+            placeholder={user?.username}
         />
       </div>
 

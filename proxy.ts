@@ -26,14 +26,14 @@ export async function proxy(request: NextRequest) {
       if (setCookie) {
         const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
         for (const cookieStr of cookieArray) {
-		  const parsed = parseSetCookie(cookieStr);
+          const parsed = parseSetCookie(cookieStr);
             
           if (parsed.value) {
-			cookieStore.set(parsed.name, parsed.value, parsed);
+			cookieStore.set(parsed.name, parsed.value);
 		  }          
         }
         
-        if (isPublicRoute + '/') {
+        if (isPublicRoute) {
           return NextResponse.redirect(new URL('/', request.url), {
             headers: {
               Cookie: cookieStore.toString(),
@@ -41,7 +41,7 @@ export async function proxy(request: NextRequest) {
           });
           }
           
-        if (isPrivateRoute + '/') {
+        if (isPrivateRoute) {
           return NextResponse.next({
             headers: {
               Cookie: cookieStore.toString(),
@@ -53,20 +53,20 @@ export async function proxy(request: NextRequest) {
       }
       }
       
-    if (isPublicRoute + '/') {
+    if (isPublicRoute) {
       return NextResponse.next();
     }
 
-    if (isPrivateRoute + '/') {
+    if (isPrivateRoute) {
       return NextResponse.redirect(new URL('/sign-in', request.url));
     }
   }
 
-  if (isPublicRoute + '/') {
+  if (isPublicRoute) {
     return NextResponse.redirect(new URL('/', request.url));
     }
     
-  if (isPrivateRoute + '/') {
+  if (isPrivateRoute) {
     return NextResponse.next();
   }
 }
