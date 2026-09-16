@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/lib/api/clientApi";
-import { ApiError } from "@/app/api/api";
 import { useAuthStore } from "@/lib/store/authStore";
 import { LoginRequest } from "@/types/user";
+import { ApiError } from "@/lib/api/api";
 
 const SignIn = () => {
   const router = useRouter();

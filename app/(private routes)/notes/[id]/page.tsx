@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: SingleNoteDetailsProps): Prom
     return {
         title: `${data.title}`,
         description: `${data.content}`,
-        metadataBase: new URL("https://notehub.com/"),
+        metadataBase: new URL("https://notehub-api.goit.study/"),
         openGraph: {
             title: `${data.title}`,
             description: `${data.content}`,

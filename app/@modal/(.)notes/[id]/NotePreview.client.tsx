@@ -14,7 +14,7 @@ interface NoteDetailsProps {
 export default function NoteDetails({ id }: NoteDetailsProps) {
   const route = useRouter()
 
- const {data: note, isError } = useQuery({
+ const {data: note, isError, isLoading } = useQuery({
           queryKey: ["singleNote", id],
           queryFn: () => fetchNoteById(id),
           refetchOnMount: false,
@@ -25,10 +25,14 @@ export default function NoteDetails({ id }: NoteDetailsProps) {
 
   const handleClose = () => {
         route.back()
-    }
+  }
   
+  if (isLoading) {
+    return <p>Loading...</p>
+  } else {
   return (
-      <Modal onClose={handleClose}>
+    <Modal onClose={handleClose}>
+      <button onClick={handleClose}>Close</button>
         <li className={css.listItem} key={note.id}>
             <h2 className={css.title}>{note.title}</h2>
             <p className={css.content}>{note.content}</p>
@@ -39,4 +43,5 @@ export default function NoteDetails({ id }: NoteDetailsProps) {
       </li>
       </Modal>
     )
+  }
 }

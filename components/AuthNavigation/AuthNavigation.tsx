@@ -34,10 +34,10 @@ const AuthNavigation = () => {
   ) : (
     <>
       <li>
-	      <Link href="/auth/sign-in">Login</Link>
+	      <Link href="/sign-in">Login</Link>
       </li>
       <li>
-	      <Link href="/auth/sign-up">Sign up</Link>
+	      <Link href="/sign-up">Sign up</Link>
 	    </li>
     </>
   );

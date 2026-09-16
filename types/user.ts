@@ -1,16 +1,13 @@
 export type RegisterRequest = {
   email: string;
   password: string;
-  userName: string;
+  username: string;
 };
 
 export type User = {
-  id: string;
   email: string;
-  userName?: string;
-  photoUrl?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  username?: string;
+  avatar: string;
 };
 
 export type LoginRequest = {
@@ -18,11 +15,7 @@ export type LoginRequest = {
   password: string;
 };
 
-export type CheckSessionRequest = {
-  success: boolean;
-};
-
-export interface UserData {
-  email: string,
-  userName: string,
-}
+// export interface UserData {
+//   email: string,
+//   username: string,
+// }

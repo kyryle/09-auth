@@ -9,7 +9,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import type { Note } from "../../../../../types/note"
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 interface NotesClientProps {
@@ -17,7 +17,6 @@ interface NotesClientProps {
 }
 
 export default function NotesClient({ tag }: NotesClientProps) {
-    const route = useRouter()
 
     const [searchValue, setSearchValue] = useState<string>('')
     const [page, setPage] = useState<number>(1)
@@ -38,11 +37,6 @@ export default function NotesClient({ tag }: NotesClientProps) {
         setPage(page)
     }
 
-    const handleClick = () => {
-        route.push('/notes/action/create')
-    }
-
-
     const results: Note[] = data?.notes ?? []
     const totalPages = data?.totalPages ?? 0
 
@@ -51,7 +45,7 @@ export default function NotesClient({ tag }: NotesClientProps) {
             <header className={css.toolbar}>
                 <SearchBox searchValue={searchValue} onSearch={debouncedOnSearch} />
                 {totalPages > 1 && <Pagination totalPages={totalPages} onPageChange={handlePage} forcePage={page} />}
-                <button className={css.button} onClick={handleClick}>Create note +</button>
+                <button className={css.button}><Link href={'/notes/action/create'}>Create note +</Link></button>
             </header>
             {results.length > 0 && <NoteList notes={results} />}
         </div>

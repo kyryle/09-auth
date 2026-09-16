@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: NotesByTagsProps): Promise<Me
     return {
         title: `NoteHub-${tag} notes`,
         description: `Notes with ${tag} tag`,
-        metadataBase: new URL("https://notehub.com/"),
+        metadataBase: new URL("https://notehub-api.goit.study/"),
         openGraph: {
             title: `NoteHub-${tag} notes`,
             description: `Notes with ${tag} tag`,

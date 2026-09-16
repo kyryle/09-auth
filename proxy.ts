@@ -1,4 +1,4 @@
-// proxy.ts
+
 
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
@@ -33,7 +33,7 @@ export async function proxy(request: NextRequest) {
 		  }          
         }
         
-        if (isPublicRoute) {
+        if (isPublicRoute + '/') {
           return NextResponse.redirect(new URL('/', request.url), {
             headers: {
               Cookie: cookieStore.toString(),
@@ -41,30 +41,32 @@ export async function proxy(request: NextRequest) {
           });
           }
           
-        if (isPrivateRoute) {
+        if (isPrivateRoute + '/') {
           return NextResponse.next({
             headers: {
               Cookie: cookieStore.toString(),
             },
           });
         }
+      } else {
+        return NextResponse.redirect(new URL('/sign-in', request.url));
       }
       }
       
-    if (isPublicRoute) {
+    if (isPublicRoute + '/') {
       return NextResponse.next();
     }
 
-    if (isPrivateRoute) {
+    if (isPrivateRoute + '/') {
       return NextResponse.redirect(new URL('/sign-in', request.url));
     }
   }
 
-  if (isPublicRoute) {
+  if (isPublicRoute + '/') {
     return NextResponse.redirect(new URL('/', request.url));
     }
     
-  if (isPrivateRoute) {
+  if (isPrivateRoute + '/') {
     return NextResponse.next();
   }
 }

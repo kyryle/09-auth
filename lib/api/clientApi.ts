@@ -1,4 +1,4 @@
-import { CheckSessionRequest, LoginRequest, RegisterRequest, User, UserData } from "@/types/user";
+import { LoginRequest, RegisterRequest, User } from "@/types/user";
 import type { Note, NoteId } from "../../types/note"
 import { nextApi } from "./api";
 
@@ -10,38 +10,70 @@ export interface NoteHubResponse {
     totalPages: number,
 }
 
+export type CheckSessionRequest = {
+  success: boolean;
+};
+
 interface NoteData {
     title: string;
     content: string;
-    tag: "Todo" | "Work" | "Personal" | "Meeting" | "Shopping"
+    tag: string
+}
+
+export interface UserData {
+  username: string,
 }
 
 export const register = async (data: RegisterRequest) => {
-  const res = await nextApi.post<User>('/auth/register', data);
+  const res = await nextApi.post<User>('/auth/register', data, {
+        headers: {
+            Authorization: `Bearer ${myKey}`
+        }
+    });
   return res.data;
 };
 
 export const login = async (data: LoginRequest) => {
-  const res = await nextApi.post<User>('/auth/login', data);
+  const res = await nextApi.post<User>('/auth/login', data, {
+        headers: {
+            Authorization: `Bearer ${myKey}`
+        }
+    });
   return res.data;
 };
 
 export const logout = async (): Promise<void> => {
-  await nextApi.post('/auth/logout')
+  await nextApi.post('/auth/logout', {
+        headers: {
+            Authorization: `Bearer ${myKey}`
+        }
+    })
 };
 
 export const checkSession = async () => {
-  const res = await nextApi.get<CheckSessionRequest>('/auth/session');
-  return res.data.success;
+  const res = await nextApi.get<CheckSessionRequest>('/auth/session', {
+        headers: {
+            Authorization: `Bearer ${myKey}`
+        }
+    });
+  return res.data;
 };
 
 export const getMe = async () => {
-  const { data } = await nextApi.get<User>('/auth/me');
+  const { data } = await nextApi.get<User>('/users/me', {
+        headers: {
+            Authorization: `Bearer ${myKey}`
+        }
+    });
   return data;
 };
 
 export const updateMe = async (data: UserData) => {
-  const res = await nextApi.post<User>('/auth/me', data);
+    const res = await nextApi.patch<User>('/users/me', data, {
+        headers: {
+            Authorization: `Bearer ${myKey}`
+        }
+    });
   return res.data;
 };
 

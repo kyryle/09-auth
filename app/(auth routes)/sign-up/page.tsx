@@ -1,6 +1,6 @@
 "use client";
 
-import { ApiError } from "@/app/api/api";
+import { ApiError } from "@/lib/api/api";
 import { register } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 import { RegisterRequest } from "@/types/user";
@@ -40,7 +40,7 @@ const SignUp = () => {
       <form action={handleSubmit}>
         <label>
           Username
-          <input type="text" name="userName" required />
+          <input type="text" name="username" required />
         </label>
         <label>
           Email

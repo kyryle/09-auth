@@ -3,9 +3,6 @@ import type { Note, NoteId } from "../../types/note"
 import { nextApi } from "./api";
 import { cookies } from 'next/headers';
 
-
-const myKey = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
-
 export interface NoteHubResponse {
     notes: Note[],
     totalPages: number,
@@ -13,10 +10,10 @@ export interface NoteHubResponse {
 
 export const checkServerSession = async () => {
     
-  const cookieStore = await cookies();
+    const cookieStore = await cookies();
+    
   const res = await nextApi.get('/auth/session', {
       headers: {
-        
       Cookie: cookieStore.toString(),
     },
   });
@@ -26,7 +23,7 @@ export const checkServerSession = async () => {
 
 export const getServerMe = async (): Promise<User> => {
   const cookieStore = await cookies();
-  const { data } = await nextApi.get('/auth/me', {
+  const { data } = await nextApi.get('/users/me', {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -43,7 +40,7 @@ export const fetchNotes = async (search: string, page: number, tag: string) => {
                 ...(tag && {tag}),
             },
             headers: {
-                Authorization: `Bearer ${myKey}`
+                Cookie: cookieStore.toString(),
             }
 
         })
@@ -66,9 +63,9 @@ export const fetchNotes = async (search: string, page: number, tag: string) => {
 export const fetchNoteById = async (id: NoteId) => {
     try {
     const result = await nextApi.get<Note>(`/notes/${id}`, {
-        headers: {
-            Authorization: `Bearer ${myKey}`
-        }
+            headers: {
+                Cookie: cookieStore.toString(),
+            }
     })
     
     return result.data
