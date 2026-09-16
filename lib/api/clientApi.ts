@@ -1,4 +1,4 @@
-import { LoginRequest, RegisterRequest, User, UserData } from "@/types/user";
+import { LoginRequest, RegisterRequest, User } from "@/types/user";
 import type { Note, NoteData, NoteId } from "../../types/note"
 import { nextApi } from "./api";
 
@@ -11,6 +11,10 @@ export interface NoteHubResponse {
 interface CheckSessionResponse {
   success: boolean;
 };
+
+interface UserData {
+  username: string,
+}
 
 export const register = async (data: RegisterRequest) => {
   const res = await nextApi.post<User>('/auth/register', data);

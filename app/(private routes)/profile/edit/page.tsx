@@ -18,8 +18,8 @@ const EditPage = () => {
       email: user?.email || "",
       avatar: user?.avatar || "",
     }
-        setUser(newUser)
         await updateMe(newUser)
+        setUser(newUser)
         route.back()
     }
 return (
@@ -37,12 +37,12 @@ return (
 
     <form className={css.profileInfo} action={handleSubmit}>
       <div className={css.usernameWrapper}>
-                <label htmlFor="username">Username: {user?.username}</label>
+                <label htmlFor="username">Username: </label>
           <input id="username"
             name="username"
           type="text"
             className={css.input}
-            placeholder={user?.username}
+            defaultValue={user?.username}
         />
       </div>
 

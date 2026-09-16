@@ -13,7 +13,3 @@ export type LoginRequest = {
   email: string;
   password: string;
 };
-
-export interface UserData {
-  username: string,
-}

@@ -50,26 +50,58 @@ export async function proxy(request: NextRequest) {
           });
         }
       } else {
-        return NextResponse.redirect(new URL('/sign-in', request.url));
+        return NextResponse.redirect(new URL('/sign-in', request.url), {
+            headers: {
+              Cookie: cookieStore.toString(),
+            },
+          });
       }
       }
       
     if (isPublicRoute) {
-      return NextResponse.next();
+      return NextResponse.next(), {
+            headers: {
+              Cookie: cookieStore.toString(),
+            },
+          };
     }
 
     if (isPrivateRoute) {
-      return NextResponse.redirect(new URL('/sign-in', request.url));
-    }
+      return NextResponse.redirect(new URL('/sign-in', request.url), {
+            headers: {
+              Cookie: cookieStore.toString(),
+            },
+          });
+    } else {
+        return NextResponse.redirect(new URL('/sign-in', request.url), {
+            headers: {
+              Cookie: cookieStore.toString(),
+            },
+          });
+      }
   }
 
   if (isPublicRoute) {
-    return NextResponse.redirect(new URL('/', request.url));
+    return NextResponse.redirect(new URL('/', request.url), {
+            headers: {
+              Cookie: cookieStore.toString(),
+            },
+          });
     }
     
   if (isPrivateRoute) {
-    return NextResponse.next();
-  }
+    return NextResponse.next(), {
+            headers: {
+              Cookie: cookieStore.toString(),
+            },
+          };
+  } else {
+        return NextResponse.redirect(new URL('/sign-in', request.url), {
+            headers: {
+              Cookie: cookieStore.toString(),
+            },
+          });
+      }
 }
 
 export const config = {
