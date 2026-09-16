@@ -33,6 +33,7 @@ export const getServerMe = async (): Promise<User> => {
 
 export const fetchNotes = async (search: string, page: number, tag: string) => {
     try {
+        const cookieStore = await cookies();
         const result = await nextApi.get<NoteHubResponse>('/notes', {
             params: {
                 search: search,
@@ -62,6 +63,7 @@ export const fetchNotes = async (search: string, page: number, tag: string) => {
 
 export const fetchNoteById = async (id: NoteId) => {
     try {
+        const cookieStore = await cookies();
     const result = await nextApi.get<Note>(`/notes/${id}`, {
             headers: {
                 Cookie: cookieStore.toString(),
